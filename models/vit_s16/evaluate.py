@@ -12,6 +12,7 @@ from data.dataset import create_dataloaders
 from models.vit_s16.model import ViTS16VHG
 from utils.logger import setup_logging
 from utils.metrics import compute_metrics
+from utils.extract_embeddings import save_embeddings
 
 
 def evaluate(config_path="config.yaml", checkpoint="best_model.pth"):
@@ -63,6 +64,10 @@ def evaluate(config_path="config.yaml", checkpoint="best_model.pth"):
     logger.info("Per-Class Metrics:")
     for cls_, metrics in results["per_class"].items():
         logger.info(f"  Clase {cls_}: Precision={metrics['precision']:.4f} Recall={metrics['recall']:.4f} F1={metrics['f1']:.4f}")
+
+    embeddings_dir = model_dir / "embeddings"
+    save_embeddings(model, loaders["test"], embeddings_dir, device, name="test")
+    logger.info(f"Embeddings guardados en: {embeddings_dir}")
 
     return results
 

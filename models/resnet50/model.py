@@ -17,11 +17,20 @@ class ResNet50VHG(nn.Module):
         weights = ResNet50_Weights.DEFAULT if pretrained else None
         self.backbone = resnet50(weights=weights)
 
-        in_features = self.backbone.fc.in_features
-        self.backbone.fc = nn.Sequential(
-            nn.Dropout(p=dropout),
-            nn.Linear(in_features, num_classes),
-        )
+        self.embedding_dim = self.backbone.fc.in_features
+        self.backbone.fc = nn.Identity()
+
+        self.dropout = nn.Dropout(p=dropout)
+        self.classifier_final = nn.Linear(self.embedding_dim, num_classes)
 
     def forward(self, x):
-        return self.backbone(x)
+        x = self.backbone(x)
+        x = self.dropout(x)
+        x = self.classifier_final(x)
+        return x
+
+    def forward_embedding(self, x):
+        x = self.backbone(x)
+        embedding = self.dropout(x)
+        logits = self.classifier_final(embedding)
+        return logits, embedding

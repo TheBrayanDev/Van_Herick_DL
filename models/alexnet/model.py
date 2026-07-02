@@ -13,6 +13,7 @@ class AlexNetVHG(nn.Module):
 
     def __init__(self, num_classes=4, dropout=0.5):
         super().__init__()
+        self.embedding_dim = 4096
 
         self.features = nn.Sequential(
             nn.Conv2d(1, 64, kernel_size=11, stride=4, padding=2),
@@ -43,8 +44,8 @@ class AlexNetVHG(nn.Module):
             nn.Dropout(p=dropout),
             nn.Linear(4096, 4096),
             nn.ReLU(inplace=True),
-            nn.Linear(4096, num_classes),
         )
+        self.classifier_final = nn.Linear(4096, num_classes)
 
         self._init_weights()
 
@@ -63,4 +64,13 @@ class AlexNetVHG(nn.Module):
         x = self.avgpool(x)
         x = torch.flatten(x, 1)
         x = self.classifier(x)
+        x = self.classifier_final(x)
         return x
+
+    def forward_embedding(self, x):
+        x = self.features(x)
+        x = self.avgpool(x)
+        x = torch.flatten(x, 1)
+        embedding = self.classifier(x)
+        logits = self.classifier_final(embedding)
+        return logits, embedding

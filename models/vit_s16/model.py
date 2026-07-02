@@ -16,11 +16,20 @@ class ViTS16VHG(nn.Module):
         weights = ViT_S_16_Weights.DEFAULT if pretrained else None
         self.backbone = vit_s_16(weights=weights)
 
-        in_features = self.backbone.heads.head.in_features
-        self.backbone.heads = nn.Sequential(
-            nn.Dropout(p=dropout),
-            nn.Linear(in_features, num_classes),
-        )
+        self.embedding_dim = self.backbone.heads.head.in_features
+        self.backbone.heads = nn.Identity()
+
+        self.dropout = nn.Dropout(p=dropout)
+        self.classifier_final = nn.Linear(self.embedding_dim, num_classes)
 
     def forward(self, x):
-        return self.backbone(x)
+        x = self.backbone(x)
+        x = self.dropout(x)
+        x = self.classifier_final(x)
+        return x
+
+    def forward_embedding(self, x):
+        x = self.backbone(x)
+        embedding = self.dropout(x)
+        logits = self.classifier_final(embedding)
+        return logits, embedding
