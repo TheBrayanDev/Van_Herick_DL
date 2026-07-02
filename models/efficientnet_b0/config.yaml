@@ -1,0 +1,39 @@
+model:
+  name: "EfficientNetB0_VHG"
+  num_classes: 4
+  input_channels: 3
+  input_size: 224
+  dropout: 0.5
+  pretrained: true
+
+training:
+  batch_size: 64
+  epochs: 100
+  learning_rate: 0.001
+  optimizer: "adam"
+  weight_decay: 0.0001
+  lr_scheduler:
+    patience: 5
+    factor: 0.5
+
+augmentation:
+  rotation_range: 7
+  width_shift_range: 0.01
+  height_shift_range: 0.01
+  zoom_range: [0.5, 1.75]
+  brightness_range: [0.9, 1.1]
+
+callbacks:
+  early_stop_patience: 10
+
+data:
+  csv_path: "/home/thebrayandev/tg/Van_Herick_DL/pics_by_patients/dataset_master_split.csv"
+  data_dir: "/home/thebrayandev/tg/Van_Herick_DL/pics_by_patients"
+  img_size: 224
+  use_red_channel: false
+  num_workers: 8
+
+logging:
+  log_dir: "logs"
+  save_best: true
+  tensorboard: true

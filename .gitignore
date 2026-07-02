@@ -1,0 +1,36 @@
+# Imágenes del dataset (privacidad)
+pics_by_patients/
+
+# Entorno virtual
+venv/
+.venv/
+
+# Python cache
+__pycache__/
+*.py[cod]
+*.pyo
+*.egg-info/
+dist/
+build/
+
+# Logs y checkpoints (se regeneran)
+**/logs/
+**/tensorboard/
+**/plots/
+*.pth
+*.pt
+
+# Métricas CSV (se regeneran)
+**/metrics.csv
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# Jupyter (migramos a scripts)
+*.ipynb
