@@ -63,7 +63,7 @@ pip install -r requirements.txt
 
 ## 5. Ajustar config.yaml para Windows
 
-En cada modelo (`models/alexnet/config.yaml`, `models/resnet50/config.yaml`, `models/efficientnet_b0/config.yaml`), **reemplazar los paths**:
+En cada modelo (`models/alexnet/config.yaml`, `models/resnet50/config.yaml`, `models/efficientnet_b0/config.yaml`, `models/vit_s16/config.yaml`), **reemplazar los paths**:
 
 ```yaml
 data:
@@ -108,6 +108,13 @@ cd C:\proyectos\Van_Herick_DL\models\efficientnet_b0
 python train.py
 ```
 
+### 6.4 ViT-S/16
+
+```powershell
+cd C:\proyectos\Van_Herick_DL\models\vit_s16
+python train.py
+```
+
 ---
 
 ## 7. Evaluar (opcional, post-entrenamiento)
@@ -120,6 +127,9 @@ cd C:\proyectos\Van_Herick_DL\models\resnet50
 python evaluate.py
 
 cd C:\proyectos\Van_Herick_DL\models\efficientnet_b0
+python evaluate.py
+
+cd C:\proyectos\Van_Herick_DL\models\vit_s16
 python evaluate.py
 ```
 
@@ -135,6 +145,9 @@ cd C:\proyectos\Van_Herick_DL\models\resnet50
 python visualize.py
 
 cd C:\proyectos\Van_Herick_DL\models\efficientnet_b0
+python visualize.py
+
+cd C:\proyectos\Van_Herick_DL\models\vit_s16
 python visualize.py
 ```
 
